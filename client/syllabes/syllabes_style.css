@@ -1,0 +1,11 @@
+.leftPart, .rightPart {
+  font-size: 6rem !important;
+}
+
+.cursive {
+  font-family: 'Dancing Script', cursive !important;
+}
+
+button.cursive {
+  /*font-size: 2rem !important;*/
+}

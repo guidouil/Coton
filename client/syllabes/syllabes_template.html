@@ -1,0 +1,45 @@
+<template name='syllabes'>
+  <div class="ui basic center aligned segment">
+    <h1 class="ui header reload">Cotton</h1>
+
+    <div class="ui divider"></div>
+
+    <button class="ui huge green icon button reload">
+      <i class="refresh icon"></i>
+    </button>
+    <button class="ui huge teal icon button lire">
+      <i class="play icon"></i>
+    </button>
+
+    <div class="ui divider"></div>
+
+    <div><span class="ui {{colorLeft}} huge header leftPart {{hasCursiveClass}}">{{isMajuscules left 'left'}}</span><span class="ui {{colorRight}} huge header rightPart {{hasCursiveClass}}">{{isMajuscules right 'right'}}</span></div>
+
+    <div class="ui divider"></div>
+
+    <select id="leftChoice" name="leftChoice" class="ui compact selection dropdown">
+      <option value="">Gauche</option>
+      {{#each leftChoice}}
+      <option value="{{this}}">{{uppercase this}}</option>
+      {{/each}}
+    </select>
+    <select id="rightChoice" name="rightChoice" class="ui compact selection dropdown">
+      <option value="">Droite</option>
+      {{#each rightChoice}}
+      <option value="{{this}}">{{uppercase this}}</option>
+      {{/each}}
+    </select>
+
+    <div class="ui divider"></div>
+
+    <div class="ui huge buttons">
+      <button class="ui green button majuscule active">MAJ.</button>
+      <button class="ui orange button minuscule">min.</button>
+      <button class="ui red button cursive cursive">Abc</button>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <h4 class="ui header">Pour Augustin et Alexandre</h4>
+  </div>
+</template>
