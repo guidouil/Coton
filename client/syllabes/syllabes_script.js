@@ -24,6 +24,7 @@ Template.syllabes.onRendered(function () {
   Session.set('right', _.sample(Template.instance().rightParts));
   Session.set('colorLeft', _.sample(Template.instance().color));
   Session.set('colorRight', _.sample(Template.instance().color));
+  // $('select').dropdown();
 });
 
 Template.syllabes.helpers({
@@ -40,7 +41,9 @@ Template.syllabes.helpers({
     return Template.instance().rightParts;
   },
   uppercase (string) {
-    return string.toUpperCase();
+    if (string) {
+      return string.toUpperCase();
+    }
   },
   colorLeft () {
     return Session.get('colorLeft');
@@ -49,10 +52,10 @@ Template.syllabes.helpers({
     return Session.get('colorRight');
   },
   isMajuscules (text, position) {
-    if (Session.equals('majuscule', true)) {
+    if (text && Session.equals('majuscule', true)) {
       return text.toUpperCase();
     }
-    if (position === 'left' && Session.equals('cursive', true) && Math.random() > 0.5) {
+    if (text && position === 'left' && Session.equals('cursive', true) && Math.random() > 0.5) {
       return text.charAt(0).toUpperCase() + text.slice(1);
     }
     return text;
@@ -67,12 +70,15 @@ Template.syllabes.helpers({
 
 Template.syllabes.events({
   'click .reload' () {
-    Session.set('left', _.sample(Template.instance().leftParts));
-    Session.set('right', _.sample(Template.instance().rightParts));
-    Session.set('colorLeft', _.sample(Template.instance().color));
-    Session.set('colorRight', _.sample(Template.instance().color));
-    $('#leftChoice').prop('selectedIndex', 0);
-    $('#rightChoice').prop('selectedIndex', 0);
+    if (Session.equals('needReload', true)) {
+      Session.set('needReload', false);
+      Meteor._reload.reload();
+    } else {
+      Session.set('left', _.sample(Template.instance().leftParts));
+      Session.set('right', _.sample(Template.instance().rightParts));
+      Session.set('colorLeft', _.sample(Template.instance().color));
+      Session.set('colorRight', _.sample(Template.instance().color));
+    }
   },
   'click .lire' () {
     let left = $('.leftPart').html();
@@ -83,12 +89,20 @@ Template.syllabes.events({
     speechSynthesis.speak(syllabe);
   },
   'change #leftChoice' (evt) {
-    Session.set('left', $(evt.target).val());
-    Session.set('colorLeft', _.sample(Template.instance().color));
+    let left = $(evt.target).val();
+    if (left) {
+      Session.set('left', $(evt.target).val());
+      Session.set('colorLeft', _.sample(Template.instance().color));
+    }
+    Session.set('needReload', true);
   },
   'change #rightChoice' (evt) {
-    Session.set('right', $(evt.target).val());
-    Session.set('colorRight', _.sample(Template.instance().color));
+    let right = $(evt.target).val();
+    if (right) {
+      Session.set('right', $(evt.target).val());
+      Session.set('colorRight', _.sample(Template.instance().color));
+    }
+    Session.set('needReload', true);
   },
   'click .majuscule' () {
     $('.minuscule').removeClass('active');
@@ -112,16 +126,22 @@ Template.syllabes.events({
     Session.set('majuscule', false);
   },
   'click .leftDown' () {
-    $('#leftChoice option:selected').next().attr('selected', 'selected');
-    Session.set('left', $('#leftChoice option:selected').val());
-    Session.set('colorLeft', _.sample(Template.instance().color));
-    $('#rightChoice :nth-child(2)').prop('selected', true);
-    Session.set('right', $('#rightChoice option:selected').val());
-    Session.set('colorRight', _.sample(Template.instance().color));
+    let nextElement = $('#leftChoice > option:selected').next('option');
+    if (nextElement.length > 0) {
+      $('#leftChoice > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+      Session.set('left', $('#leftChoice > option:selected').val());
+      Session.set('colorLeft', _.sample(Template.instance().color));
+    }
   },
   'click .rightDown' () {
-    $('#rightChoice option:selected').next().attr('selected', 'selected');
-    Session.set('right', $('#rightChoice option:selected').val());
-    Session.set('colorRight', _.sample(Template.instance().color));
+    let nextElement = $('#rightChoice > option:selected').next('option');
+    if (nextElement.length > 0) {
+      $('#rightChoice > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+      Session.set('right', $('#rightChoice > option:selected').val());
+      Session.set('colorRight', _.sample(Template.instance().color));
+    }
+  },
+  'click .bugButton' () {
+    Meteor._reload.reload();
   },
 });

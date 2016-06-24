@@ -17,20 +17,20 @@
 
     <div class="ui divider"></div>
 
-    <i class="big angle double down blue link icon leftDown"></i>
-    <select id="leftChoice" name="leftChoice" class="ui compact selection dropdown">
-      <option value="">Gauche</option>
+    <i class="large angle double down blue link icon leftDown"></i>
+    <select id="leftChoice" name="leftChoice">
+      <option value="" selected="selected">Gauche</option>
       {{#each leftChoice}}
       <option value="{{this}}">{{uppercase this}}</option>
       {{/each}}
     </select>
-    <select id="rightChoice" name="rightChoice" class="ui compact selection dropdown">
-      <option value="">Droite</option>
+    <select id="rightChoice" name="rightChoice">
+      <option value="" selected="selected">Droite</option>
       {{#each rightChoice}}
       <option value="{{this}}">{{uppercase this}}</option>
       {{/each}}
     </select>
-    <i class="big angle  down blue link icon rightDown"></i>
+    <i class="large angle  down blue link icon rightDown"></i>
 
     <div class="ui divider"></div>
 
@@ -43,5 +43,9 @@
     <div class="ui divider"></div>
 
     <h4 class="ui header">Pour Augustin et Alexandre</h4>
+
+    <div class="ui divider"></div>
+
+    <button class="ui compact basic labeled icon button bugButton"><i class="bug icon"></i>BUG</button>
   </div>
 </template>
