@@ -1,21 +1,21 @@
 # Past the deploy script NOT AS ROOT !!!
 cd
-rm -rf cotton-source
+rm -rf coton-source
 rm -rf builds
-git clone https://github.com/guidouil/Cotton.git cotton-source
-cd cotton-source
+git clone https://github.com/guidouil/Coton.git coton-source
+cd coton-source
 meteor build ../builds/. --server-only
 cd ../builds/
-tar xzf cotton-source.tar.gz
+tar xzf coton-source.tar.gz
 cd
-forever stop cotton
-rm -rf cotton
+forever stop coton
+rm -rf coton
 cd builds
-mv bundle ../cotton
-cd ../cotton/programs/server/
+mv bundle ../coton
+cd ../coton/programs/server/
 npm install
 cd
-export MONGO_URL='mongodb://127.0.0.1:27017/cotton'
+export MONGO_URL='mongodb://127.0.0.1:27017/coton'
 export PORT=8080
-export ROOT_URL='http://cotton.cmapage.com/'
-forever start --append --uid "cotton" cotton/main.js
+export ROOT_URL='http://coton.cmapage.com/'
+forever start --append --uid "coton" coton/main.js

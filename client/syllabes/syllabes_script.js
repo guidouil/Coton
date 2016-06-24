@@ -79,7 +79,8 @@ Template.syllabes.events({
     let right = $('.rightPart').html();
     let syllabe = new SpeechSynthesisUtterance();
     syllabe.lang = 'fr-FR';
-    syllabe.text = left + right;
+
+    syllabe.text = left.toLowerCase() + right.toUpperCase();
     speechSynthesis.speak(syllabe);
   },
   'change #leftChoice' (evt) {
