@@ -4,12 +4,12 @@ import './syllabes_template.html';
 
 Template.syllabes.onCreated(function () {
   this.leftParts = [
-    'b', 'c', 'd', 'f', 'j', 'k', 'l', 'm', 'n', 'p', 'qu',
-    'r', 's', 't', 'v', 'ch', 'g', 'br', 'bl', 'cr', 'tr',
+    'b', 'c', 'd', 'f', 'g', 'j', 'k', 'l', 'm', 'n', 'p', 'qu',
+    'r', 's', 't', 'v', 'x', 'ch', 'br', 'bl', 'cr', 'tr',
   ];
   this.rightParts = [
     'a', 'e', 'i', 'o', 'u', 'an', 'au', 'ai',
-    'en', 'é', 'eu', 'in', 'on', 'ou', 'oi', 'è',
+    'en', 'é', 'eu', 'è', 'in', 'on', 'ou', 'oi',
   ];
   this.color = [
     'red', 'orange', 'yellow', 'olive', 'green', 'teal', 'none',
@@ -79,8 +79,7 @@ Template.syllabes.events({
     let right = $('.rightPart').html();
     let syllabe = new SpeechSynthesisUtterance();
     syllabe.lang = 'fr-FR';
-
-    syllabe.text = left.toLowerCase() + right.toUpperCase();
+    syllabe.text = ' ' + left.toUpperCase() + right.toUpperCase() + ' ';
     speechSynthesis.speak(syllabe);
   },
   'change #leftChoice' (evt) {
@@ -105,11 +104,24 @@ Template.syllabes.events({
     Session.set('majuscule', false);
     Session.set('cursive', false);
   },
-  'click .impression, click .cursive' () {
+  'click .cursive' () {
     $('.cursive').addClass('active');
     $('.minuscule').removeClass('active');
     $('.majuscule').removeClass('active');
     Session.set('cursive', true);
     Session.set('majuscule', false);
+  },
+  'click .leftDown' () {
+    $('#leftChoice option:selected').next().attr('selected', 'selected');
+    Session.set('left', $('#leftChoice option:selected').val());
+    Session.set('colorLeft', _.sample(Template.instance().color));
+    $('#rightChoice :nth-child(2)').prop('selected', true);
+    Session.set('right', $('#rightChoice option:selected').val());
+    Session.set('colorRight', _.sample(Template.instance().color));
+  },
+  'click .rightDown' () {
+    $('#rightChoice option:selected').next().attr('selected', 'selected');
+    Session.set('right', $('#rightChoice option:selected').val());
+    Session.set('colorRight', _.sample(Template.instance().color));
   },
 });
